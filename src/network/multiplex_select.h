@@ -79,9 +79,9 @@ public:
 
   void Wait() override {
     PrepareSets();
-    InvokeCallback(select(static_cast<int>(_registered.size()) + 1,
-                          read_sets, write_sets, error_sets,
-                          nullptr));
+    int ret = select(static_cast<int>(_registered.size()) + 1,
+                     read_sets, write_sets, error_sets, nullptr);
+    InvokeCallback(ret);
   }
 
   void Wait(std::chrono::milliseconds timeout_ms) override {
@@ -91,9 +91,9 @@ public:
     struct timeval timeout {
       timeout_s.count(), timeout_ms.count()
     };
-    InvokeCallback(select(static_cast<int>(_registered.size()) + 1,
-                          read_sets, write_sets, error_sets,
-                          &timeout));
+    int ret = select(static_cast<int>(_registered.size()) + 1,
+                     read_sets, write_sets, error_sets, &timeout);
+    InvokeCallback(ret);
   }
 };
 
