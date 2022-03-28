@@ -9,6 +9,14 @@
 
 namespace Creadential {
 
+// return curren login name
+std::string get_LoginName() {
+  char *name{nullptr};
+  if ((name = getlogin()) == nullptr)
+    throw std::runtime_error(strerror(errno));
+  return std::string(name);
+}
+
 // return Real User ID
 inline uid_t get_UID() noexcept { return getuid(); }
 // return Effective User ID
